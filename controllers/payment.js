@@ -1,11 +1,5 @@
 import { Cashfree } from "cashfree-pg";
 
-Cashfree.XClientId =
-  process.env.CLIENT_ID
-Cashfree.XClientSecret =
-  process.env.CLIENT_SECRET
-Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
-
 export const createOrder = async (req, res) => {
   try {
     var request = {
@@ -42,17 +36,19 @@ export const verfiyOrder = async (req, res) => {
   try {
     const { orderId } = req.body;
 
-    Cashfree.PGOrderFetchPayments("2023-08-01", orderId).then((response) => {
+    Cashfree.PGOrderFetchPayments("2023-08-01", orderId)
+      .then((response) => {
         res.status(200).json({
-            message: 'Order fetched successfully',
-            data: response.data,
+          message: "Order fetched successfully",
+          data: response.data,
         });
-    }).catch((error) => {
+      })
+      .catch((error) => {
         res.status(500).json({
-            message: 'Error',
-            data: error,
+          message: "Error",
+          data: error,
         });
-    });
+      });
   } catch (error) {
     return res.status(500).json({
       message: error.message,

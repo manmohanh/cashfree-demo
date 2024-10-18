@@ -1,18 +1,24 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import paymentRoutes from './routes/payment.js'
+import dotenv from "dotenv";
 
-dotenv.config()
-const app = express()
-const port = 8000
+dotenv.config();
+import express from "express";
+import cors from "cors";
+import paymentRoutes from "./routes/payment.js";
+import { Cashfree } from "cashfree-pg";
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+Cashfree.XClientId = process.env.CLIENT_ID;
+Cashfree.XClientSecret = process.env.CLIENT_SECRET;
+Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
 
-app.use("/api",paymentRoutes)
+const app = express();
+const port = process.env.PORT;
 
-app.listen(port,()=>{
-    console.log(`Server is running on port ${port}`)
-})
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+
+app.use("/api", paymentRoutes);
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
