@@ -18,6 +18,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.use("/api", paymentRoutes);
+app.use("/healthz", (req, res) => {
+  res.status(200).send("OK");
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
